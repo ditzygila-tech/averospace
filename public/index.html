@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AveroSpace — Alight Motion Premium</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --ink:#111;
+  --paper:#f3eee3;
+  --white:#fffdf7;
+  --yellow:#ffe15a;
+  --pink:#ff7ac8;
+  --blue:#7ddcff;
+  --green:#a8f28c;
+  --red:#ff8d8d;
+}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;width:340px;height:340px;border:4px solid var(--ink);background:var(--pink);right:-110px;top:90px;transform:rotate(17deg);z-index:-2}
+body:after{content:"";position:fixed;width:220px;height:220px;border:4px solid var(--ink);background:var(--blue);left:-90px;bottom:-80px;transform:rotate(-12deg);z-index:-2}
+.wrap{width:min(1120px,calc(100% - 30px));margin:auto;padding:28px 0 60px}
+.top{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:start}
+.brand,.stepbox,.maincard,.sticker,.mini{border:4px solid var(--ink);background:var(--white);box-shadow:10px 10px 0 var(--ink)}
+.brand{padding:24px 28px;position:relative;overflow:hidden}
+.brand:after{content:"";position:absolute;width:100px;height:100px;background:var(--yellow);border:4px solid var(--ink);right:-35px;top:-48px;transform:rotate(22deg)}
+.brand h1{font-size:clamp(42px,7vw,78px);line-height:.78;margin:0;font-weight:1000;letter-spacing:-5px;position:relative;z-index:1}
+.brand p{display:inline-block;background:var(--pink);border:3px solid var(--ink);padding:7px 10px;margin:18px 0 0;font-weight:900;text-transform:uppercase;transform:rotate(-2deg);position:relative;z-index:1}
+.stepbox{min-width:210px;padding:18px;background:var(--yellow);transform:rotate(2deg)}
+.stepno{font-size:34px;font-weight:1000;line-height:1}
+.stepname{font-size:13px;font-weight:1000;margin-top:8px;text-transform:uppercase}
+.progress{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:28px 0}
+.seg{height:18px;border:3px solid var(--ink);background:var(--white);box-shadow:4px 4px 0 var(--ink)}
+.seg.active{background:var(--yellow)}
+.maincard{position:relative;padding:38px;min-height:500px;background:var(--white)}
+.maincard:before{content:"";position:absolute;inset:12px -14px -14px 12px;border:4px solid var(--ink);background:var(--blue);z-index:-1}
+.section{display:none}.section.active{display:block}
+h2{font-size:clamp(34px,6vw,58px);line-height:.9;margin:0 0 15px;font-weight:1000;letter-spacing:-3px;text-transform:uppercase}
+.desc{font-size:17px;font-weight:800;max-width:700px;line-height:1.5;margin-bottom:30px}
+label{display:block;font-size:13px;font-weight:1000;text-transform:uppercase;margin-bottom:8px}
+input{width:100%;border:4px solid var(--ink);background:#fff;padding:18px;font-size:18px;font-weight:800;outline:none;box-shadow:6px 6px 0 var(--ink);margin-bottom:22px}
+input:focus{background:var(--yellow)}
+.btn{border:4px solid var(--ink);background:var(--pink);box-shadow:7px 7px 0 var(--ink);padding:17px 22px;font-size:15px;font-weight:1000;text-transform:uppercase;cursor:pointer}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:9px 9px 0 var(--ink)}
+.btn:active{transform:translate(5px,5px);box-shadow:2px 2px 0 var(--ink)}
+.info{border:4px solid var(--ink);background:var(--yellow);padding:20px;margin:22px 0;font-weight:800;line-height:1.5;box-shadow:6px 6px 0 var(--ink)}
+.example{border:4px solid var(--ink);background:#eee;padding:18px;margin:20px 0;box-shadow:6px 6px 0 var(--ink)}
+.example code{display:block;margin-top:10px;font-family:monospace;word-break:break-all;font-size:13px;background:var(--white);border:3px solid var(--ink);padding:10px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:25px 0}
+.mini{padding:17px;box-shadow:6px 6px 0 var(--ink)}
+.mini small{display:block;font-weight:1000;text-transform:uppercase;font-size:11px}
+.mini strong{font-size:18px;display:block;margin-top:6px;word-break:break-word}
+.notice{border:4px solid var(--ink);padding:16px;background:var(--green);font-weight:1000;box-shadow:6px 6px 0 var(--ink);margin-bottom:24px}
+.error{display:none;border:4px solid var(--ink);padding:15px;background:var(--red);font-weight:1000;margin-top:20px}
+.loading{display:none;margin-top:20px;font-weight:1000}
+.footer{display:flex;justify-content:space-between;gap:12px;margin-top:30px;font-size:12px;font-weight:1000;text-transform:uppercase}
+@media(max-width:700px){
+ .top{grid-template-columns:1fr}.stepbox{width:100%;transform:none}
+ .maincard{padding:24px}.maincard:before{display:none}.grid{grid-template-columns:1fr}
+ .footer{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <h1>AveroSpace</h1>
+      <p>Alight Motion Premium</p>
+    </div>
+    <div class="stepbox">
+      <div class="stepno" id="stepNo">01 / 04</div>
+      <div class="stepname" id="stepName">ENTER EMAIL</div>
+    </div>
+  </div>
+
+  <div class="progress">
+    <div class="seg active"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div>
+  </div>
+
+  <main class="maincard">
+    <section class="section active" id="s1">
+      <h2>Enter Your Email</h2>
+      <div class="desc">Masukkan email Gmail yang ingin digunakan untuk aktivasi Premium.</div>
+      <label>Email Address</label>
+      <input id="email" type="email" placeholder="example@gmail.com" autocomplete="email">
+      <button class="btn" id="sendBtn">Send Verify Link →</button>
+      <div class="loading" id="load1">SENDING VERIFY LINK...</div>
+      <div class="error" id="err1"></div>
+    </section>
+
+    <section class="section" id="s2">
+      <h2>Copy Verification URL</h2>
+      <div class="desc">Buka Gmail, masuk ke folder <strong>Spam</strong>, lalu cari email dari <strong>Alight Motion / Alight Creative</strong>.</div>
+      <div class="info">Tekan dan tahan tombol/link verifikasi di email, lalu pilih <strong>Copy URL</strong>. Jangan buka link secara langsung.</div>
+      <div class="example"><strong>EXAMPLE URL</strong><code>https://alightcreative.com/auth/xxxxxxxxxxxxxxxx</code></div>
+      <label>Verification URL</label>
+      <input id="verificationUrl" type="url" placeholder="Paste verification URL here...">
+      <button class="btn" id="verifyBtn">Activate Premium Account →</button>
+      <div class="loading" id="load2">ACTIVATING PREMIUM ACCOUNT...</div>
+      <div class="error" id="err2"></div>
+    </section>
+
+    <section class="section" id="s3">
+      <h2>Confirm Build</h2>
+      <div class="desc">Periksa hasil aktivasi sebelum menyelesaikan proses.</div>
+      <div class="grid">
+        <div class="mini"><small>Account</small><strong id="cEmail">—</strong></div>
+        <div class="mini"><small>Premium</small><strong id="cPremium">—</strong></div>
+        <div class="mini"><small>Duration</small><strong id="cDuration">—</strong></div>
+        <div class="mini"><small>Build</small><strong id="cBuild">Verified</strong></div>
+      </div>
+      <button class="btn" id="confirmBtn">Confirm Build →</button>
+    </section>
+
+    <section class="section" id="s4">
+      <div class="notice">PREMIUM ACTIVATION SUCCESSFUL</div>
+      <h2>You're Done.</h2>
+      <div class="desc">Akun berhasil diproses dan dikonfirmasi.</div>
+      <div class="grid">
+        <div class="mini"><small>Account</small><strong id="fEmail">—</strong></div>
+        <div class="mini"><small>Status</small><strong>PREMIUM</strong></div>
+        <div class="mini"><small>Duration</small><strong id="fDuration">1 Year</strong></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer">
+    <span>AVEROSPACE / PREMIUM ACTIVATOR</span>
+    <span>NEOBRUTAL EDITION</span>
+  </div>
+</div>
+
+<script>
+let email = "";
+let result = null;
+
+const names = ["ENTER EMAIL","VERIFY URL","CONFIRM BUILD","DONE"];
+
+function step(n){
+  document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
+  document.getElementById("s"+n).classList.add("active");
+  document.getElementById("stepNo").textContent = String(n).padStart(2,"0")+" / 04";
+  document.getElementById("stepName").textContent = names[n-1];
+  document.querySelectorAll(".seg").forEach((x,i)=>x.classList.toggle("active",i<n));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function showErr(id,msg){const e=document.getElementById(id);e.textContent=msg;e.style.display="block";}
+function hideErr(id){document.getElementById(id).style.display="none";}
+
+document.getElementById("sendBtn").onclick = async()=>{
+  hideErr("err1");
+  const input=document.getElementById("email");
+  email=input.value.trim();
+  if(!email || !input.checkValidity()) return showErr("err1","Masukkan email yang valid.");
+  document.getElementById("load1").style.display="block";
+  try{
+    const r=await fetch("/api/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email})});
+    const d=await r.json();
+    if(!r.ok || d.status===false) throw new Error(d.message||d.error||"Gagal mengirim verification link.");
+    step(2);
+  }catch(e){showErr("err1",e.message)}
+  finally{document.getElementById("load1").style.display="none"}
+};
+
+document.getElementById("verifyBtn").onclick = async()=>{
+  hideErr("err2");
+  const link=document.getElementById("verificationUrl").value.trim();
+  if(!link) return showErr("err2","Masukkan verification URL.");
+  document.getElementById("load2").style.display="block";
+  try{
+    const r=await fetch("/api/verif",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,link})});
+    const d=await r.json();
+    if(!r.ok || d.status===false) throw new Error(d.message||d.error||"Aktivasi gagal.");
+    result=d;
+    document.getElementById("cEmail").textContent=d.email||email;
+    document.getElementById("cPremium").textContent=d.premium?"TRUE":"FALSE";
+    document.getElementById("cDuration").textContent=d.duration||"1 Year";
+    document.getElementById("cBuild").textContent=d.build||"Verified";
+    step(3);
+  }catch(e){showErr("err2",e.message)}
+  finally{document.getElementById("load2").style.display="none"}
+};
+
+document.getElementById("confirmBtn").onclick=()=>{
+  document.getElementById("fEmail").textContent=result?.email||email;
+  document.getElementById("fDuration").textContent=result?.duration||"1 Year";
+  step(4);
+};
+</script>
+</body>
+</html>
